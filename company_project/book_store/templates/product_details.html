@@ -1,0 +1,35 @@
+<!-- product_page.html -->
+
+{% extends 'base_new.html' %}
+
+{% block title %}Product Page{% endblock %}
+
+{% block content %}
+
+<div class="container" style="max-width: 800px; margin: 0 auto;">
+    <header class="page-header" style="text-align: center; margin-bottom: 20px;">
+        <h1>Books</h1>
+    </header>
+
+    <div class="product-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+        {% for book_details in bookdetail %}
+        <div class="product-details" style="border: 1px solid #ddd; padding: 10px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <img class="product-image" src="{{ book_details.image.url }}" alt="{{ book_details.name }} Image" style="max-width: 100%; height: auto; border-radius: 4px;">
+            <div class="text-details" style="padding: 10px;">
+                <h2 style="margin-bottom: 10px; color: #333;">{{ book_details.name }}</h2>
+                <p class="price" style="color: #4caf50; font-weight: bold;">Price: {{ book_details.price }} Rs</p>
+                <div class="actions" style="margin-top: 10px;">
+                    <a href="{% url 'edit_product' product_id=book_details.id %}" class="button edit-button" style="padding: 8px 12px; text-decoration: none; color: #fff; cursor: pointer; border: none; border-radius: 4px; outline: none; background-color: #2196F3;">Edit</a>
+
+                    <form method="post" action="{% url 'delete_product' product_id=book_details.id %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="button delete-button" style="padding: 8px 12px; text-decoration: none; color: #fff; cursor: pointer; border: none; border-radius: 4px; outline: none; background-color: #f44336;">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
